@@ -4,7 +4,9 @@ import 'package:quiz_app/data/questions.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class QuestionScreen extends StatefulWidget {
-  const QuestionScreen({super.key});
+  const QuestionScreen( this.onSelectAnswer, {super.key});
+
+  final  void Function(String answer) onSelectAnswer;
 
   @override
   State<QuestionScreen> createState() {
@@ -15,7 +17,10 @@ class QuestionScreen extends StatefulWidget {
 class _QuestionScreen extends State<QuestionScreen> {
   var currentQuestionIndex = 0;
 
-  void answerQuestionClicked() {
+  void answerQuestionClicked(String selectedAnswers) {
+
+    widget.onSelectAnswer(selectedAnswers);
+
     setState(() {
       currentQuestionIndex += 1;
     });
@@ -47,7 +52,9 @@ class _QuestionScreen extends State<QuestionScreen> {
             // generate the answer list dynamically and shuffle it
             ...currentQuestion.getShuffledAnswers().map(
               (answer) {
-                return AnswerButton(answer, answerQuestionClicked);
+                return AnswerButton(answer,  () {
+                  answerQuestionClicked(answer);
+                },);
               },
             )
           ],
