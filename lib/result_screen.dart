@@ -1,9 +1,28 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:quiz_app/data/questions.dart';
 
 class ResultScreen extends StatelessWidget {
   const ResultScreen(this.chosenAnswer, {super.key});
 
   final List<String> chosenAnswer;
+
+  List<Map<String, Object>> getSummaryData() {
+
+      final List<Map<String, Object>> summary = [];
+
+      for (var i = 0; i< chosenAnswer.length; i++){
+          summary.add({
+            'question_index' : i,
+            'question' : questions[i].text,
+            'correct_answer' : questions[i].answers[0],
+            'userAnswer' : chosenAnswer[1]
+          });
+      }
+
+      return summary;
+  }
+
 
   @override
   Widget build(context) {
@@ -14,11 +33,6 @@ class ResultScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Image.asset(
-            //   'assets/images/result_image.jpg',
-            //   width: 300,
-            //   color: const Color.fromARGB(150, 255, 255, 255),
-            // ),
             const Text('You answered X out of Y questions correctly'),
             const SizedBox(
               height: 30,
